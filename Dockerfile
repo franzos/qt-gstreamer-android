@@ -49,3 +49,5 @@ RUN git clone https://gitlab.freedesktop.org/gstreamer/cerbero.git /vendor/cerbe
     cd /vendor/cerbero && git checkout 1.20.6 
 RUN cd /vendor/cerbero && ./cerbero-uninstalled -c config/cross-android-universal.cbc bootstrap
 RUN cd /vendor/cerbero && ./cerbero-uninstalled -c config/cross-android-universal.cbc -v qt5 package gstreamer-1.0
+
+ENTRYPOINT [ "" ]

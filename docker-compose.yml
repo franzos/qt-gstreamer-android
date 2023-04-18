@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  gstreamer-qt:
+    container_name: demo-monitor
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # network: host
+    # network_mode: host
+    command: tail -f /dev/null
+    environment:
+      - QT_GRAPHICSSYSTEM=native
+    volumes:
+      - .:/usr/src
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
