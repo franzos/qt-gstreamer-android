@@ -62,11 +62,6 @@ RUN sed -i "s|android-ndk-21|android-ndk-20|" /vendor/cerbero/config/android.con
 ENV ANDROID_NDK_ROOT=/vendor/cerbero/build/android-ndk-20
 ENV NDK_ROOT=/vendor/cerbero/build/android-ndk-20
 
-RUN git config --global http.sslverify false
-RUN git config --global user.name "GStreamer"
-RUN git config --global user.email "cerbero@gstreamer.freedesktop.org"
-RUN git config --global --add safe.directory '*'
-
 RUN cd /vendor/cerbero && ./cerbero-uninstalled -c config/cross-android-universal.cbc bootstrap
 RUN cd /vendor/cerbero && ./cerbero-uninstalled -c config/cross-android-universal.cbc -v qt5 package gstreamer-1.0
 
