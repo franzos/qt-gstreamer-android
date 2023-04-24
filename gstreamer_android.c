@@ -17,9 +17,9 @@ G_PASTE(g_io_module_, G_PASTE(name, _load_static)) ()
 /* Declaration of static plugins */
 GST_PLUGIN_STATIC_DECLARE(coreelements);
 GST_PLUGIN_STATIC_DECLARE(typefindfunctions);
-// GST_PLUGIN_STATIC_DECLARE(videoconvert);
+GST_PLUGIN_STATIC_DECLARE(videoconvert);
 GST_PLUGIN_STATIC_DECLARE(videorate);
-// GST_PLUGIN_STATIC_DECLARE(videoscale);
+GST_PLUGIN_STATIC_DECLARE(videoscale);
 GST_PLUGIN_STATIC_DECLARE(videofilter);
 GST_PLUGIN_STATIC_DECLARE(autodetect);
 GST_PLUGIN_STATIC_DECLARE(playback);
@@ -40,9 +40,9 @@ gst_android_register_static_plugins (void)
 {
   GST_PLUGIN_STATIC_REGISTER(coreelements);
   GST_PLUGIN_STATIC_REGISTER(typefindfunctions);
-  // GST_PLUGIN_STATIC_REGISTER(videoconvert);
+  GST_PLUGIN_STATIC_REGISTER(videoconvert);
   GST_PLUGIN_STATIC_REGISTER(videorate);
-  // GST_PLUGIN_STATIC_REGISTER(videoscale);
+  GST_PLUGIN_STATIC_REGISTER(videoscale);
   GST_PLUGIN_STATIC_REGISTER(videofilter);
   GST_PLUGIN_STATIC_REGISTER(autodetect);
   GST_PLUGIN_STATIC_REGISTER(playback);

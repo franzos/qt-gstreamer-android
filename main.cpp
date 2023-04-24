@@ -4,6 +4,7 @@
 #include <QQuickItem>
 #include <QRunnable>
 #include <gst/gst.h>
+#include <gst/gstplugin.h>
 
 extern "C" gboolean gst_qt_android_init (GError ** error);
 
@@ -52,6 +53,9 @@ void myMessageHandler(
 
 #endif
 
+void print_device_name(GstDevice *device, gpointer user_data) {
+    qWarning() << "Device name:" << gst_device_get_display_name(device);
+}
 
 gboolean
 newBusMessage(GstBus *bus G_GNUC_UNUSED, GstMessage *msg, gpointer user_data G_GNUC_UNUSED)
@@ -132,38 +136,48 @@ int main(int argc, char *argv[])
     return -1;
   qDebug() << "-> GST initialized";
 
+  // Print available providers
+  GstRegistry *registry = gst_registry_get();
+  GList *plugin_list = gst_registry_get_plugin_list(registry);
+
+  qDebug() << "Available providers:";
+  for (GList *iter = plugin_list; iter != nullptr; iter = g_list_next(iter)) {
+      GstPlugin *plugin = static_cast<GstPlugin *>(iter->data);
+      qDebug() << "  -" << gst_plugin_get_name(plugin);
+  }
+
+  gst_plugin_list_free(plugin_list);
+
   // GstDeviceMonitor logic ------>
 
-  GstDeviceMonitor *monitor = nullptr;
+  GstDeviceMonitor *monitor;
+  GstBus *bus;
+  GstCaps *caps;
   
   monitor = gst_device_monitor_new();
   if (!monitor) {
       qWarning()  << "MONITOR: monitor is null";
   }
-  GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
-  if (!caps) {
-      qWarning() << "MONITOR: caps is null";
-  }
-  gst_device_monitor_add_filter(monitor, "Audio/Source", caps);
-  gst_device_monitor_add_filter(monitor, "Audio/Duplex", caps);
-  gst_device_monitor_add_filter(monitor, "openslessrc", caps);
-  gst_caps_unref(caps);
-  caps = gst_caps_new_empty_simple("video/x-raw");
-  if (!caps) {
-      qWarning() << "MONITOR: caps is null - 2nd";
-  }
-  gst_device_monitor_add_filter(monitor, "Video/Source", caps);
-  gst_device_monitor_add_filter(monitor, "Video/Duplex", caps);
-  gst_device_monitor_add_filter(monitor, "androidcamerasrc", caps);
-  // gst_device_monitor_add_filter(monitor, "Source/Video", caps);
-  gst_caps_unref(caps);
 
-  GstBus *bus = gst_device_monitor_get_bus(monitor);
+  bus = gst_device_monitor_get_bus(monitor);
   if (!bus) {
       qWarning() << "MONITOR: bus is null";
   }
   gst_bus_add_watch(bus, newBusMessage, nullptr);
   gst_object_unref(bus);
+
+  caps = gst_caps_new_empty_simple("audio/x-raw");
+  gst_device_monitor_add_filter(monitor, "Audio/Source", caps);
+  gst_caps_unref(caps);
+  
+  caps = gst_caps_new_empty_simple("video/x-raw");
+  gst_device_monitor_add_filter(monitor, "Video/Source", caps);
+  gst_caps_unref(caps);
+
+  GList *devices = gst_device_monitor_get_devices(monitor);
+  g_list_foreach(devices, (GFunc)print_device_name, NULL);
+  g_list_free(devices);
+
   if (!gst_device_monitor_start(monitor))
   {
       qWarning() << "MONITOR: failed to start device monitor";
@@ -172,7 +186,8 @@ int main(int argc, char *argv[])
   // <------ GstDeviceMonitor logic
 
   // GstElement *pipeline = gst_parse_launch ("videotestsrc ! x264enc tune=zerolatency ! video/x-h264,profile=baseline ! queue ! h264parse ! decodebin ! queue ! glupload ! glcolorconvert ! qmlglsink name=sink", NULL);
-  GstElement *pipeline = gst_parse_launch ("videotestsrc pattern=snow ! glupload ! qmlglsink name=sink", NULL);
+  // GstElement *pipeline = gst_parse_launch ("videotestsrc pattern=snow ! glupload ! qmlglsink name=sink", NULL);
+  GstElement *pipeline = gst_parse_launch ("ahcsrc ! queue ! videoconvert ! glupload ! qmlglsink name=sink", NULL);
   g_assert (pipeline);
   qDebug() << "-> PIPELINE created";
   /* the plugin must be loaded before loading the qml file to register the

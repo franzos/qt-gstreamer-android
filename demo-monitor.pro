@@ -17,8 +17,8 @@ RESOURCES += qml.qrc
 TARGET = demo-monitor
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-ANDROID_TARGET_SDK_VERSION = 32
-ANDROID_MIN_SDK_VERSION = 24
+ANDROID_TARGET_SDK_VERSION = 20
+ANDROID_MIN_SDK_VERSION = 16
 
 equals(ANDROID_TARGET_ARCH, armeabi-v7a) {
     GSTREAMER_ROOT=/vendor/cerbero/build/dist/android_universal/armv7
@@ -27,19 +27,19 @@ equals(ANDROID_TARGET_ARCH, armeabi-v7a) {
 }
 
 INCLUDEPATH += \
-    $$GSTREAMER_ROOT/include \
-    $$GSTREAMER_ROOT/include/gstreamer-1.0 \
-    $$GSTREAMER_ROOT/include/glib-2.0 \
-    $$GSTREAMER_ROOT/lib/gstreamer-1.0/include \
-    $$GSTREAMER_ROOT/lib/glib-2.0/include
+    $${GSTREAMER_ROOT}/include/gstreamer-1.0 \
+    $${GSTREAMER_ROOT}/lib/gstreamer-1.0/include \
+    $${GSTREAMER_ROOT}/include/glib-2.0 \
+    $${GSTREAMER_ROOT}/lib/glib-2.0/include \
+    $${GSTREAMER_ROOT}/include
 
 
 # GStreamer Plugins
 LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstcoreelements.a
 LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgsttypefindfunctions.a
-# LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstvideoconvert.a
+LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstvideoconvert.a
 LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstvideorate.a
-# LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstvideoscale.a
+LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstvideoscale.a
 LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstvideofilter.a
 LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstautodetect.a
 LIBS += $${GSTREAMER_ROOT}/lib/gstreamer-1.0/libgstvideotestsrc.a
@@ -58,8 +58,8 @@ LIBS += $${GSTREAMER_ROOT}/lib/libpng16.a
 LIBS += $${GSTREAMER_ROOT}/lib/libjpeg.a
 LIBS += $${GSTREAMER_ROOT}/lib/libx264.a
 LIBS += $${GSTREAMER_ROOT}/lib/libgstvideo-1.0.a
-# LIBS += $${GSTREAMER_ROOT}/lib/libgstbadbase-1.0.a
-# LIBS += $${GSTREAMER_ROOT}/lib/libgstbadvideo-1.0.a
+#LIBS += $${GSTREAMER_ROOT}/lib/libgstbadbase-1.0.a
+#LIBS += $${GSTREAMER_ROOT}/lib/libgstbadvideo-1.0.a
 LIBS += $${GSTREAMER_ROOT}/lib/libgstaudio-1.0.a
 LIBS += $${GSTREAMER_ROOT}/lib/libgstpbutils-1.0.a
 LIBS += $${GSTREAMER_ROOT}/lib/libgsttag-1.0.a
@@ -81,7 +81,6 @@ LIBS += $${GSTREAMER_ROOT}/lib/libgobject-2.0.a
 LIBS += $${GSTREAMER_ROOT}/lib/libglib-2.0.a
 LIBS += $${GSTREAMER_ROOT}/lib/libffi.a
 #LIBS += $${GSTREAMER_ROOT}/lib/libpcre.a
-#LIBS += $${GSTREAMER_ROOT}/lib/libpcre2-8.a
 LIBS += $${GSTREAMER_ROOT}/lib/libiconv.a
 LIBS += $${GSTREAMER_ROOT}/lib/libintl.a
 LIBS += $${GSTREAMER_ROOT}/lib/libz.a
