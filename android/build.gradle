@@ -74,6 +74,6 @@ android {
         // minSdkVersion = qtMinSdkVersion
         // targetSdkVersion = qtTargetSdkVersion
         minSdkVersion = 16
-        targetSdkVersion = 20
+        targetSdkVersion = 30
     }
 }

@@ -36,3 +36,5 @@ make apk
 ```shell
 $ adb logcat | grep -E '(demo-monitor|GStreamer)'
 ```
+
+Note: You might have to manually grant permissions to the application via System Settings.
