@@ -3,10 +3,11 @@ version: '3'
 services:
   gstreamer-qt:
     container_name: demo-monitor
-    build:
-      context: .
-      dockerfile: Dockerfile
-      # network: host
+    image: franzos/gstreamer-qt:5.15.8-lts-lgpl-gst-1.20.6-android-latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   network: host
     # network_mode: host
     command: tail -f /dev/null
     environment:
