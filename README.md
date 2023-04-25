@@ -48,3 +48,13 @@ We currently use GStreamer 1.20.6. Using 1.22.2 you will need to make some chang
 clang++: error: no such file or directory: '/vendor/cerbero/build/dist/android_universal/armv7/lib/gstreamer-1.0/libgstvideoconvert.a'
 clang++: error: no such file or directory: '/vendor/cerbero/build/dist/android_universal/armv7/lib/gstreamer-1.0/libgstvideoscale.a'
 ```
+
+and more:
+
+```
+/vendor/cerbero/build/sources/android_universal/armv7/glib-2.74.4/_builddir/../glib/gregex.c:1025: error: undefined reference to 'pcre2_match_context_free_8'
+/vendor/cerbero/build/sources/android_universal/armv7/glib-2.74.4/_builddir/../glib/gregex.c:1027: error: undefined reference to 'pcre2_match_data_free_8'
+/vendor/cerbero/build/sources/android_universal/armv7/glib-2.74.4/_builddir/../glib/gregex.c:1664: error: undefined reference to 'pcre2_code_free_8'
+/vendor/cerbero/build/sources/android_universal/armv7/glib-2.74.4/_builddir/../glib/gregex.c:1097: error: undefined reference to 'pcre2_jit_match_8'
+...
+```
